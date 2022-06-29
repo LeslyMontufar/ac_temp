@@ -67,7 +67,7 @@ void Error_Handler(void);
 #define SWT_UP_EXTI_IRQn EXTI1_IRQn
 #define HEATER_Pin GPIO_PIN_10
 #define HEATER_GPIO_Port GPIOA
-#define COOLER_Pin GPIO_PIN_11
+#define COOLER_Pin GPIO_PIN_12
 #define COOLER_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 

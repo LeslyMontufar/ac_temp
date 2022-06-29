@@ -12,12 +12,12 @@
 #include "app.h"
 #include "hw.h"
 
-#define APP_DEBOUNCING_TIME_MS 	50
+#define APP_DEBOUNCING_TIME_MS 	250		// com jumper o debouncing é maior
 #define DELAY_IDLE 				500
 #define DELAY_COOLING 			100
 #define DELAY_HEATING 			1000
 
-volatile uint32_t room_temp = 25.0;
+volatile float room_temp = 25.0;
 volatile uint32_t delay = DELAY_IDLE;
 bool app_started = false;
 
@@ -28,11 +28,13 @@ typedef enum {
 	AC_COOL
 } ac_states_t;
 
-typedef struct {
+struct ac_sm_tt{
 	ac_states_t state;
 	float set_point_c;
 	float histerese_c;
-} ac_sm_t;
+};
+
+ac_sm_t ac_sm = {0};
 
 void ac_stw_down_callback(void){
 
@@ -52,6 +54,14 @@ void ac_stw_up_callback(void){
 	}
 }
 
+void ac_cool_set(bool state){
+	hw_cool_state_set(state);
+}
+
+void ac_heat_set(bool state){
+	hw_heat_state_set(state);
+}
+
 void app_tick_1ms(void){
 	static uint32_t delay_cnt = 0;
 
@@ -68,13 +78,9 @@ void app_tick_1ms(void){
 }
 
 void ac_run_sm(ac_sm_t *sm){
-//	bool up_key = ac_read_up_key();
-//	bool dn_key = ac_read_dn_key();
-//	float temp_c = ac_read_temp_c();
-//	sm->set_point_c = ac_read_set_point_c();
 
 	switch(sm->state){
-		case AC_INIT: // inicialização do que for preciso
+		case AC_INIT:
 			sm->histerese_c = 2.0;
 			sm->state = AC_IDLE;
 			sm->set_point_c = 25.0;
@@ -83,24 +89,24 @@ void ac_run_sm(ac_sm_t *sm){
 			delay = DELAY_IDLE;
 			ac_cool_set(false);
 			ac_heat_set(false);
-			if(temp_c > (sm->set_point_c + sm->histerese_c))
+			if(room_temp > (sm->set_point_c + sm->histerese_c))
 				sm->state = AC_COOL;
-			else if(temp_c < (sm->set_point_c - sm->histerese_c))
+			else if(room_temp < (sm->set_point_c - sm->histerese_c))
 				sm->state = AC_HEAT;
 			break;
 		case AC_HEAT:
 			delay = DELAY_HEATING;
 			ac_heat_set(true);
-			if(temp_c > sm->set_point_c)
+			if(room_temp > sm->set_point_c)
 				sm->state = AC_IDLE;
 			break;
 		case AC_COOL:
 			delay = DELAY_COOLING;
 			ac_cool_set(true);
-			if(temp_c < sm->set_point_c)
+			if(room_temp < sm->set_point_c)
 				sm->state = AC_IDLE;
 			break;
-		default: // isto nunca deveria acontecer
+		default:
 			sm->state = AC_INIT;
 			break;
 	}
@@ -108,7 +114,6 @@ void ac_run_sm(ac_sm_t *sm){
 
 void app_init(void){
 	app_started = true;
-	ac_sm_t ac_sm;
 	ac_sm.state = AC_INIT;
 }
 

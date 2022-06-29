@@ -12,13 +12,18 @@
 #include "app.h"
 
 
-void hw_led_toggle(void){
-	HAL_GPIO_TogglePin(LED_STATE_GPIO_Port, LED_STATE_Pin);
+void hw_cool_state_set(bool state){
+	GPIO_PinState led_state = state ? GPIO_PIN_RESET : GPIO_PIN_SET;
+	HAL_GPIO_WritePin(COOLER_GPIO_Port, COOLER_Pin, led_state);
 }
 
+void hw_heat_state_set(bool state){
+	GPIO_PinState led_state = state ? GPIO_PIN_RESET : GPIO_PIN_SET;
+	HAL_GPIO_WritePin(HEATER_GPIO_Port, HEATER_Pin, led_state);
+}
 
-void hw_delay_ms(uint32_t time_ms){
-	HAL_Delay(time_ms);
+void hw_led_toggle(void){
+	HAL_GPIO_TogglePin(LED_STATE_GPIO_Port, LED_STATE_Pin);
 }
 
 void hw_cpu_sleep(){

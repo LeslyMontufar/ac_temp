@@ -22,6 +22,7 @@
 #include "stm32f1xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "app.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -204,12 +205,13 @@ void SysTick_Handler(void)
 void EXTI0_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI0_IRQn 0 */
-#if
+#if 0
   /* USER CODE END EXTI0_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(SWT_DOWN_Pin);
   /* USER CODE BEGIN EXTI0_IRQn 1 */
 #else
   __HAL_GPIO_EXTI_CLEAR_IT(SWT_DOWN_Pin);
+//  ac_stw_down_callback();
   ac_stw_down_callback();
 #endif
   /* USER CODE END EXTI0_IRQn 1 */
@@ -221,7 +223,7 @@ void EXTI0_IRQHandler(void)
 void EXTI1_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI1_IRQn 0 */
-#if
+#if 0
   /* USER CODE END EXTI1_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(SWT_UP_Pin);
   /* USER CODE BEGIN EXTI1_IRQn 1 */
