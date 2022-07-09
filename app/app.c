@@ -12,7 +12,7 @@
 #include "app.h"
 #include "hw.h"
 
-#define APP_DEBOUNCING_TIME_MS 	250		// com jumper o debouncing é maior
+#define APP_DEBOUNCING_TIME_MS 	100		// com jumper o tempo de debouncing precisa ser maior
 #define DELAY_IDLE 				500
 #define DELAY_COOLING 			100
 #define DELAY_HEATING 			1000

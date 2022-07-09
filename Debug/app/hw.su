@@ -1,0 +1,5 @@
+../app/hw.c:15:6:hw_cool_state_set	24	static
+../app/hw.c:20:6:hw_heat_state_set	24	static
+../app/hw.c:25:6:hw_led_toggle	8	static
+../app/hw.c:29:6:hw_cpu_sleep	4	static,ignoring_inline_asm
+../app/hw.c:33:10:hw_tick_ms_get	8	static

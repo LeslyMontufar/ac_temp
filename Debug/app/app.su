@@ -1,0 +1,8 @@
+../app/app.c:39:6:ac_stw_down_callback	8	static
+../app/app.c:48:6:ac_stw_up_callback	8	static
+../app/app.c:57:6:ac_cool_set	16	static
+../app/app.c:61:6:ac_heat_set	16	static
+../app/app.c:65:6:app_tick_1ms	8	static
+../app/app.c:80:6:ac_run_sm	16	static
+../app/app.c:115:6:app_init	4	static
+../app/app.c:120:6:app_loop	8	static
